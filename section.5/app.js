@@ -7,6 +7,7 @@ const morgan = require("morgan");
 const cookieParser = require("cookie-parser");
 const session = require("express-session");
 const multer = require("multer");
+const nunjucks = require("nunjucks");
 const fs = require("fs");
 
 const indexRouter = require("./routes/index");
@@ -16,6 +17,11 @@ const userRouter = require("./routes/user");
 const app = express();
 
 app.set("port", process.env.PORT || 3000);
+
+nunjucks.configure("views", {
+  express: app,
+  watch: true,
+});
 // ---------------------------------------------
 
 // 2. 미들웨어 -------------------------------
