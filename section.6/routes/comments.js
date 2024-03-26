@@ -1,9 +1,9 @@
-const express = require("express");
-const { Comment } = require("../models");
+const express = require('express');
+const { Comment } = require('../models');
 
 const router = express.Router();
 
-router.post("/", async (req, res, next) => {
+router.post('/', async (req, res, next) => {
   try {
     const comment = await Comment.create({
       commenter: req.body.id,
@@ -17,18 +17,14 @@ router.post("/", async (req, res, next) => {
   }
 });
 
-router
-  .route("/:id")
+router.route('/:id')
   .patch(async (req, res, next) => {
     try {
-      const result = await Comment.update(
-        {
-          comment: req.body.comment,
-        },
-        {
-          where: { id: req.params.id },
-        }
-      );
+      const result = await Comment.update({
+        comment: req.body.comment,
+      }, {
+        where: { id: req.params.id },
+      });
       res.json(result);
     } catch (err) {
       console.error(err);
