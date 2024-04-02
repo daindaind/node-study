@@ -2,9 +2,24 @@ const express = require("express");
 const { sequelize } = require("./models");
 const morgan = require("morgan");
 const path = require("path");
+const cors = require("cors"); // cors 해결하기
+
+const indexRouter = require("./routes/index");
+const userRouter = require("./routes/users");
+const commentRouter = require("./routes/comments");
 
 const app = express();
 app.set("port", process.env.PORT || 3002); // 포트 설정 : PORT 가 지정되어있지 않으면 3003변 포트 사용
+
+// app.use(function (req, res, next) {
+//   res.header("Access-Control-Allow-Origin", "*");
+//   res.header(
+//     "Access-Control-Allow-Headers",
+//     "Origin, X-Requested-With, Content-Type, Accept"
+//   );
+//   next();
+// });
+app.use(cors());
 
 sequelize
   .sync({ force: false })
@@ -21,6 +36,10 @@ app.use(express.json()); // 클라이언트에서 받은 JSON 요청의 body를 
 app.use(express.urlencoded({ extended: false })); // 클라이언트에서 받은 인코딩된 요청의 body를 parsing한다.
 // 클라이언트 요청 headers의 content-type : x-www-form-urlencoded -> express.urlencoded로 해석
 // 클라이언트 요청 headers의 content-type : application/json -> express.json으로 해석
+
+app.use("/", indexRouter);
+app.use("/users", userRouter);
+app.use("/comments", commentRouter);
 
 // 404 에러 처리 (잘못된 url 요청)
 app.use((req, res, next) => {
