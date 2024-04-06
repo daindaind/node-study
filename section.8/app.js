@@ -11,6 +11,7 @@ const { sequelize } = require("./models");
 const passportConfig = require("./passport");
 
 const authRouter = require("./routes/auth");
+const postRouter = require("./routes/post");
 
 dotenv.config();
 
@@ -50,6 +51,7 @@ app.use(passport.initialize()); // req.user, req.login, req.isAuthenticate, req.
 app.use(passport.session());
 
 app.use("/auth", authRouter);
+app.use("/post", postRouter);
 
 app.use((req, res, next) => {
   const error = new Error(`${req.method} ${req.url} 라우터가 없음`);

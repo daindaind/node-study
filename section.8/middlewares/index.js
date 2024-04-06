@@ -2,6 +2,7 @@
 
 exports.isLoggedIn = (req, res, mext) => {
   // isAuthenticated로 로그인 유무 파악
+  console.log(req.isAuthenticated());
   if (req.isAuthenticated()) {
     next();
   } else {
@@ -14,6 +15,6 @@ exports.isNotLoggedIn = (req, res, next) => {
     next();
   } else {
     const message = encodeURIComponent("이미 로그인 된 상태입니다.");
-    res.json(message); // 에러메시지 반환
+    res.status(403).send(message);
   }
 };

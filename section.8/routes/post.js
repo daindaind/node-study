@@ -24,7 +24,7 @@ const upload = multer({
     destination(req, file, cb) {
       cb(null, "uploads/");
     },
-    filename(req, res, cb) {
+    filename(req, file, cb) {
       const ext = path.extname(file.originalname);
       cb(null, path.basename(file.originalname, ext) + Date.now() + ext);
     },
@@ -32,13 +32,14 @@ const upload = multer({
   limits: { fileSize: 5 * 1024 * 1024 },
 });
 
+//connect.sid 세션 쿠기가 브라우저에 저장이 안되는 이슈
 // 경로 : /post/img
-router.post("/img", isLoggedIn, upload.single("img"), afterUploadImage);
+router.post("/img", upload.single("img"), afterUploadImage);
 
 // 경로 : /post
 const upload2 = multer();
-router.post("/", isLoggedIn, upload2.none(), uploadPost);
+router.post("/", upload2.none(), uploadPost);
 
-router.get("/", isLoggedIn, getPost);
+router.get("/", getPost);
 
 module.exports = router;
