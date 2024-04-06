@@ -45,3 +45,22 @@ exports.getPost = async (req, res, next) => {
     next(next);
   }
 };
+
+exports.getHashtagPost = async (req, res, next) => {
+  const query = req.query.hashtag;
+  console.log(query);
+  if (!query) {
+    res.status(403);
+  }
+  try {
+    const hashtag = await Hashtag.findOne({ where: { title: query } });
+    let posts = [];
+    if (hashtag) {
+      posts = await hashtag.getPosts({ include: [{ model: User }] });
+      res.status(200).json(posts);
+    }
+  } catch (error) {
+    console.error(error);
+    next(error);
+  }
+};

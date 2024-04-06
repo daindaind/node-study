@@ -7,6 +7,7 @@ const {
   afterUploadImage,
   uploadPost,
   getPost,
+  getHashtagPost,
 } = require("../controllers/post");
 const { isLoggedIn } = require("../middlewares");
 
@@ -41,5 +42,7 @@ const upload2 = multer();
 router.post("/", upload2.none(), uploadPost);
 
 router.get("/", getPost);
+
+router.get("/hashtag", getHashtagPost);
 
 module.exports = router;
