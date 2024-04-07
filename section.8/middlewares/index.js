@@ -11,6 +11,7 @@ exports.isLoggedIn = (req, res, mext) => {
 };
 
 exports.isNotLoggedIn = (req, res, next) => {
+  console.log(req.isAuthenticated());
   if (!req.isAuthenticated()) {
     next();
   } else {

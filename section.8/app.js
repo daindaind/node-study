@@ -49,8 +49,9 @@ app.use(
     cookie: {
       httpOnly: true,
       secure: false,
-      sameSite: "none",
-      domain: "localhost:5173",
+      // sameSite: "none",   // secure가 false이면 sameSite를 none으로 설정해도 쿠키 생성이 안됨.
+      domain: "localhost",
+      path: "/",
     },
   })
 );

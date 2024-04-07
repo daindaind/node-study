@@ -11,7 +11,6 @@ module.exports = () => {
 
   passport.deserializeUser((id, done) => {
     console.log("deserialize");
-    console.log(id);
     User.findOne({
       where: { id },
       include: [
