@@ -2,18 +2,18 @@ const express = require("express");
 const cookieParser = require("cookie-parser");
 const morgan = require("morgan");
 const path = require("path");
-const cors = require("cors"); // cors 해결하기
 const nunjucks = require("nunjucks");
 const session = require("express-session");
 const dotenv = require("dotenv");
 const passport = require("passport");
+
+dotenv.config();
 const { sequelize } = require("./models");
 const passportConfig = require("./passport");
 
 const authRouter = require("./routes/auth");
 const indexRouter = require("./routes/index");
-
-dotenv.config();
+const v1 = require("./routes/v1");
 
 const app = express();
 passportConfig(); // 패스포트 설정
@@ -23,14 +23,6 @@ nunjucks.configure("views", {
   express: app,
   watch: true,
 });
-
-// cors 설정
-const corsOptions = {
-  origin: "http://localhost:5173",
-  credentials: true, //access-control-allow-credentials:true
-  optionSuccessStatus: 200,
-};
-app.use(cors(corsOptions));
 
 sequelize
   .sync({ force: false })
@@ -63,6 +55,7 @@ app.use(passport.session());
 
 app.use("/auth", authRouter);
 app.use("/", indexRouter);
+app.use("/v1", v1);
 
 app.use((req, res, next) => {
   const error = new Error(`${req.method} ${req.url} 라우터가 없음`);

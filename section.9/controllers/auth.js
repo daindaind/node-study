@@ -7,20 +7,15 @@ exports.join = async (req, res, next) => {
   try {
     const exUser = await User.findOne({ where: { email } });
     if (exUser) {
-      res.status(403).json(exUser);
-      return;
+      return res.redirect("/join?error=exist");
     }
     const hash = await bcrypt.hash(password, 12);
-    const response = await User.create({
+    await User.create({
       email,
       nick,
       password: hash,
     });
-    return res.status(200).json({
-      id: response.id,
-      email: response.email,
-      nickname: response.nick,
-    });
+    return res.redirect("/");
   } catch (error) {
     console.error(error);
     next(error);
@@ -34,7 +29,7 @@ exports.login = (req, res, next) => {
       return next(authError);
     }
     if (!user) {
-      res.status(403).json(info.message);
+      return res.redirect(`/?error=${info.message}`);
     }
     return req.login(user, (loginError) => {
       if (loginError) {
@@ -42,15 +37,13 @@ exports.login = (req, res, next) => {
         return next(loginError);
       }
       // 로그인 성공
-      res
-        .status(200)
-        .json({ id: user.id, email: user.email, nickname: user.nick });
+      return res.redirect("/");
     });
   })(req, res, next); // 미들웨어 내 미들웨어에는 (req, res, next)를 붙여야 함.
 };
 
 exports.logout = (req, res, next) => {
   req.logout(() => {
-    res.status(200).json("로그아웃 성공");
+    res.redirect("/");
   });
 };

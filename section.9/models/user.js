@@ -57,7 +57,7 @@ class User extends Sequelize.Model {
       as: "Followings",
       through: "Follow",
     });
-    db.User.hasMany(db.Domain);
+    db.User.hasMany(db.Domain); // 한 유저당 도메인이 여러 개일 수 있음
   }
 }
 

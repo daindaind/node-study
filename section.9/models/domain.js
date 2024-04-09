@@ -19,7 +19,7 @@ class Domain extends Sequelize.Model {
       },
       {
         sequelize,
-        tableName: true,
+        timestamps: true,
         paranoid: true,
         modelName: "Domain",
         tableName: "domains",
