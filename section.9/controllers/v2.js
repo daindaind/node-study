@@ -25,7 +25,7 @@ exports.createToken = async (req, res) => {
       },
       process.env.JWT_SECRET,
       {
-        expiresIn: "1m", // 유효 기간
+        expiresIn: "30m", // 유효 기간 : 30분
         issuer: "nodebird", // 발급자
       }
     );
