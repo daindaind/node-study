@@ -2,9 +2,9 @@
   "name": "nodebird-api",
   "version": "0.0.1",
   "description": "web api server",
-  "main": "app.js",
+  "main": "server.js",
   "scripts": {
-    "start": "nodemon start",
+    "start": "nodemon server",
     "test": "jest",
     "coverage": "jest --coverage"
   },
@@ -32,6 +32,7 @@
   },
   "devDependencies": {
     "jest": "^29.7.0",
-    "nodemon": "^3.1.0"
+    "nodemon": "^3.1.0",
+    "supertest": "^6.3.4"
   }
 }
