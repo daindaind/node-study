@@ -12,7 +12,7 @@ const path = require("path");
 const connect = require("./schemas");
 
 const app = express();
-app.set("port", process.env.PORT || 8005);
+app.set("port", process.env.PORT || 8006);
 app.set("view engine", "html");
 nunjucks.configure("views", {
   express: app,

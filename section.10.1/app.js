@@ -1,12 +1,14 @@
+const dotenv = require("dotenv");
+dotenv.config();
 const express = require("express");
 const cookieParser = require("cookie-parser");
 const morgan = require("morgan");
 const session = require("express-session");
-const dotenv = require("dotenv");
+
 const ColorHash = require("color-hash").default;
 const cors = require("cors");
+const http = require("http");
 
-dotenv.config();
 const webSocket = require("./socket");
 const path = require("path");
 const connect = require("./schemas");
@@ -41,6 +43,7 @@ const sessionMiddleware = session({
 
 app.use(sessionMiddleware);
 app.use((req, res, next) => {
+  console.log("서버에 요청하는 사람의 컬러: ", req.session.color);
   if (!req.session.color) {
     const colorHash = new ColorHash();
     req.session.color = colorHash.hex(req.sessionID);
@@ -63,8 +66,9 @@ app.use((err, req, res, next) => {
   res.render("error");
 });
 
-const server = app.listen(app.get("port"), () => {
-  console.log(app.get("port"), "번 포트에서 대기중!");
-});
+const server = http.createServer(app);
+server.listen(process.env.PORT, () =>
+  console.log(`서버가 ${process.env.PORT} 에서 시작되었어요`)
+);
 
 webSocket(server, app, sessionMiddleware);

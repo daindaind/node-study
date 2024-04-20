@@ -6,19 +6,21 @@ const fs = require("fs");
 const {
   renderRoom,
   createRoom,
-  // enterRoom,
-  // removeRoom,
-  // sendChat,
+  enterRoom,
+  removeRoom,
+  sendChat,
+  renderChats,
   // sendGif,
 } = require("../controllers");
 
 const router = express.Router();
 
 router.get("/room", renderRoom);
+router.get("/chats/:id", renderChats);
 router.post("/room", createRoom);
-// router.get("/room/:id", enterRoom);
-// router.delete("/room/:id", removeRoom);
-// router.post("/room/:id/chat", sendChat);
+router.get("/room/:id/:password", enterRoom);
+router.delete("/room/:id", removeRoom);
+router.post("/room/:id/chat", sendChat);
 
 // try {
 //   fs.readdirSync("uploads");
