@@ -107,8 +107,26 @@ exports.sendChat = async (req, res, next) => {
       chat: req.body.chat,
     });
     req.app.get("io").of("/chat").to(req.params.id).emit("chat", chat);
-    // req.app.get("io").of("/chat").broadcast().emit("chat", chat);
     res.status(201).json({ chat });
+  } catch (error) {
+    console.error(error);
+    next(error);
+  }
+};
+
+exports.sendGif = async (req, res, next) => {
+  console.log(req.file.filename);
+  try {
+    const chat = await Chat.create({
+      room: req.params.id,
+      user: req.session.color,
+      gif: req.file.filename,
+    });
+    req.app.get("io").of("/chat").to(req.params.id).emit("chat", chat);
+    res.status(201).json({
+      code: 201,
+      message: "이미지 업로드 완료",
+    });
   } catch (error) {
     console.error(error);
     next(error);

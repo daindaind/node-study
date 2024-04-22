@@ -14,11 +14,8 @@ exports.removeRoom = async (roomId) => {
 exports.renderChats = async (roomId) => {
   try {
     const room = await Room.findOne({ _id: roomId });
-    console.log(room);
     if (room) {
       const roomChat = await Chat.find({ room: room._id }).sort("createdAt");
-      console.log(roomChat);
-
       return roomChat;
     }
   } catch (error) {
